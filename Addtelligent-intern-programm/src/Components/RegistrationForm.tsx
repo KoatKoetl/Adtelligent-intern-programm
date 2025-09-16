@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../store/authStore";
 import {
 	type RegisterFormData,
 	registerFormSchema,
@@ -12,20 +13,38 @@ import FormField from "./FormField";
 
 const RegisterForm = () => {
 	const {
-		register,
+		control,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<RegisterFormData>({
+		defaultValues: {
+			username: "",
+			email: "",
+			password: "",
+			confirmPassword: "",
+		},
 		resolver: zodResolver(registerFormSchema),
 	});
+
+	const login = useAuthStore((state) => state.login);
 
 	const navigate = useNavigate();
 
 	const onSubmit = (data: RegisterFormData) => {
-		console.log("Form submitted:", data);
-		alert("Registration successful!");
+		console.log("Form submitted:", data.username, data.email);
 
-		navigate("/news");
+		login({
+			id: crypto.randomUUID(),
+			username: data.username,
+			email: data.email,
+		});
+
+		console.log("Registration successful!");
+		const timer = setTimeout(() => {
+			navigate("/news");
+		}, 100);
+
+		return () => clearTimeout(timer);
 	};
 
 	return (
@@ -38,7 +57,7 @@ const RegisterForm = () => {
 							id={"username"}
 							label="Username"
 							placeholder="Username"
-							register={register}
+							control={control}
 							error={errors.username?.message}
 							disabled={isSubmitting}
 						/>
@@ -48,7 +67,7 @@ const RegisterForm = () => {
 							label="Email"
 							type="email"
 							placeholder="email@example.com"
-							register={register}
+							control={control}
 							error={errors.email?.message}
 							disabled={isSubmitting}
 						/>
@@ -58,7 +77,7 @@ const RegisterForm = () => {
 							label="Password"
 							type="password"
 							placeholder="••••••••"
-							register={register}
+							control={control}
 							error={errors.password?.message}
 							disabled={isSubmitting}
 						/>
@@ -68,7 +87,7 @@ const RegisterForm = () => {
 							label="Confirm Password"
 							type="password"
 							placeholder="••••••••"
-							register={register}
+							control={control}
 							error={errors.confirmPassword?.message}
 							disabled={isSubmitting}
 						/>

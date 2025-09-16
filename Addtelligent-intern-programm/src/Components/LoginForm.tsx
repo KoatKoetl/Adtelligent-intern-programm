@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../store/authStore";
 import {
 	type LoginFormData,
 	loginFormSchema,
@@ -12,21 +13,37 @@ import FormField from "./FormField";
 
 const LoginForm = () => {
 	const {
-		register,
+		control,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<LoginFormData>({
+		defaultValues: {
+			email: "",
+			password: "",
+		},
 		resolver: zodResolver(loginFormSchema),
 	});
+
+	const login = useAuthStore((state) => state.login);
 
 	const navigate = useNavigate();
 
 	const onSubmit = (data: LoginFormData) => {
-		console.log("Form submitted:", data);
-		// Logic for logging in
-		alert("Login successful!");
+		console.log("Form submitted:", data.email);
 
-		navigate("/news");
+		login({
+			id: crypto.randomUUID(),
+			email: data.email,
+		});
+
+		// Logic for logging in
+		console.log("Login successful!");
+
+		const timer = setTimeout(() => {
+			navigate("/news");
+		}, 100);
+
+		return () => clearTimeout(timer);
 	};
 
 	return (
@@ -40,7 +57,7 @@ const LoginForm = () => {
 							label="Email"
 							type="email"
 							placeholder="email@example.com"
-							register={register}
+							control={control}
 							error={errors.email?.message}
 							disabled={isSubmitting}
 						/>
@@ -50,7 +67,7 @@ const LoginForm = () => {
 							label="Password"
 							type="password"
 							placeholder="••••••••"
-							register={register}
+							control={control}
 							error={errors.password?.message}
 							disabled={isSubmitting}
 						/>
