@@ -33,9 +33,13 @@ const LoginForm = () => {
 		});
 
 		// Logic for logging in
-		alert("Login successful!");
+		console.log("Login successful!");
 
-		navigate("/news");
+		const timer = setTimeout(() => {
+			navigate("/news");
+		}, 100);
+
+		return () => clearTimeout(timer);
 	};
 
 	return (

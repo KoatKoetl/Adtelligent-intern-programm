@@ -33,8 +33,12 @@ const RegisterForm = () => {
 			email: data.email,
 		});
 
-		alert("Registration successful!");
-		navigate("/news");
+		console.log("Registration successful!");
+		const timer = setTimeout(() => {
+			navigate("/news");
+		}, 100);
+
+		return () => clearTimeout(timer);
 	};
 
 	return (
