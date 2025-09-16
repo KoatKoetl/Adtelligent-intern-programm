@@ -1,7 +1,14 @@
-import LoginForm from "../Components/LoginForm";
+import { lazy, Suspense } from "react";
+import Loader from "../Components/Loader";
+
+const LoginForm = lazy(() => import("../Components/LoginForm"));
 
 const LoginPage = () => {
-	return <LoginForm />;
+	return (
+		<Suspense fallback={<Loader />}>
+			<LoginForm />
+		</Suspense>
+	);
 };
 
 export default LoginPage;
