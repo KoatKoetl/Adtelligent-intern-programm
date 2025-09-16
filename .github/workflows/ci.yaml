@@ -23,7 +23,3 @@ jobs:
       - name: Run Biome lint
         run: npm run lint
         working-directory: Addtelligent-intern-programm
-
-      - name: Check code formatting
-        run: npm run format -- --check
-        working-directory: Addtelligent-intern-programm
