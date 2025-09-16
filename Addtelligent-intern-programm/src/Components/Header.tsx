@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import ViteLogo from "../assets/vite.svg?react";
 import DefaultButton from "./DefaultButton";
 import { ThemeToggleButton } from "./Providers/ThemeToggleButton";
 
@@ -8,7 +9,7 @@ const Header = () => {
 			<div className="wrapper relative z-1 flex items-center justify-between px-8 py-2 max-w-[1440px] mx-auto">
 				<div className="flex gap-1">
 					<Link to="/">
-						<img src="vite.svg" alt="" />
+						<ViteLogo />
 					</Link>
 				</div>
 				<div className="flex gap-1">
