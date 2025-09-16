@@ -1,1 +1,9 @@
+/** biome-ignore-all lint/suspicious/noUnknownAtRules: <Works fine, Biome doesn't support custom variants> */
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-dark-theme-500: #19183b;
+	--color-dark-theme-800: #0f0e31;
+}
