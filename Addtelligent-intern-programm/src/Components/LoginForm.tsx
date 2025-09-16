@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../store/authStore";
 import {
 	type LoginFormData,
 	loginFormSchema,
@@ -19,10 +20,18 @@ const LoginForm = () => {
 		resolver: zodResolver(loginFormSchema),
 	});
 
+	const login = useAuthStore((state) => state.login);
+
 	const navigate = useNavigate();
 
 	const onSubmit = (data: LoginFormData) => {
-		console.log("Form submitted:", data);
+		console.log("Form submitted:", data.email);
+
+		login({
+			id: crypto.randomUUID(),
+			email: data.email,
+		});
+
 		// Logic for logging in
 		alert("Login successful!");
 

@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { useAuthStore } from "../store/authStore";
 import {
 	type RegisterFormData,
 	registerFormSchema,
@@ -19,12 +20,20 @@ const RegisterForm = () => {
 		resolver: zodResolver(registerFormSchema),
 	});
 
+	const login = useAuthStore((state) => state.login);
+
 	const navigate = useNavigate();
 
 	const onSubmit = (data: RegisterFormData) => {
-		console.log("Form submitted:", data);
-		alert("Registration successful!");
+		console.log("Form submitted:", data.username, data.email);
 
+		login({
+			id: crypto.randomUUID(),
+			username: data.username,
+			email: data.email,
+		});
+
+		alert("Registration successful!");
 		navigate("/news");
 	};
 
