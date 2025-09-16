@@ -6,7 +6,8 @@
 		"useIgnoreFile": false
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": false,
+		"includes": ["**", "!dist"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -23,6 +24,7 @@
 			"quoteStyle": "double"
 		}
 	},
+
 	"assist": {
 		"enabled": true,
 		"actions": {
