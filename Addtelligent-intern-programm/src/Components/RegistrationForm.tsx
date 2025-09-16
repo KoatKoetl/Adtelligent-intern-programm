@@ -13,10 +13,16 @@ import FormField from "./FormField";
 
 const RegisterForm = () => {
 	const {
-		register,
+		control,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<RegisterFormData>({
+		defaultValues: {
+			username: "",
+			email: "",
+			password: "",
+			confirmPassword: "",
+		},
 		resolver: zodResolver(registerFormSchema),
 	});
 
@@ -51,7 +57,7 @@ const RegisterForm = () => {
 							id={"username"}
 							label="Username"
 							placeholder="Username"
-							register={register}
+							control={control}
 							error={errors.username?.message}
 							disabled={isSubmitting}
 						/>
@@ -61,7 +67,7 @@ const RegisterForm = () => {
 							label="Email"
 							type="email"
 							placeholder="email@example.com"
-							register={register}
+							control={control}
 							error={errors.email?.message}
 							disabled={isSubmitting}
 						/>
@@ -71,7 +77,7 @@ const RegisterForm = () => {
 							label="Password"
 							type="password"
 							placeholder="••••••••"
-							register={register}
+							control={control}
 							error={errors.password?.message}
 							disabled={isSubmitting}
 						/>
@@ -81,7 +87,7 @@ const RegisterForm = () => {
 							label="Confirm Password"
 							type="password"
 							placeholder="••••••••"
-							register={register}
+							control={control}
 							error={errors.confirmPassword?.message}
 							disabled={isSubmitting}
 						/>

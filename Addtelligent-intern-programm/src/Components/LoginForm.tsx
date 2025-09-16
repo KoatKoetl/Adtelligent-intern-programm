@@ -13,10 +13,14 @@ import FormField from "./FormField";
 
 const LoginForm = () => {
 	const {
-		register,
+		control,
 		handleSubmit,
 		formState: { errors, isSubmitting },
 	} = useForm<LoginFormData>({
+		defaultValues: {
+			email: "",
+			password: "",
+		},
 		resolver: zodResolver(loginFormSchema),
 	});
 
@@ -53,7 +57,7 @@ const LoginForm = () => {
 							label="Email"
 							type="email"
 							placeholder="email@example.com"
-							register={register}
+							control={control}
 							error={errors.email?.message}
 							disabled={isSubmitting}
 						/>
@@ -63,7 +67,7 @@ const LoginForm = () => {
 							label="Password"
 							type="password"
 							placeholder="••••••••"
-							register={register}
+							control={control}
 							error={errors.password?.message}
 							disabled={isSubmitting}
 						/>
