@@ -1,7 +1,5 @@
-// import { Link } from "react-router";
-
 import { Link } from "react-router";
-import { Button } from "./Button/Button";
+import DefaultButton from "./DefaultButton";
 import { ThemeToggleButton } from "./Providers/ThemeToggleButton";
 
 const Header = () => {
@@ -15,16 +13,12 @@ const Header = () => {
 				</div>
 				<div className="flex gap-1">
 					<Link to="/news">
-						<Button variant="secondary" size="md">
-							News list
-						</Button>
+						<DefaultButton>News list</DefaultButton>
 					</Link>
 				</div>
 				<div className="flex gap-1">
 					<Link to="/login">
-						<Button variant="secondary" size="md">
-							Login
-						</Button>
+						<DefaultButton>Login</DefaultButton>
 					</Link>
 					<ThemeToggleButton />
 				</div>

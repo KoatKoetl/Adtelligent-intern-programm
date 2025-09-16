@@ -4,6 +4,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+	--color-dark-theme-50: #f0f0ff;
+	--color-dark-theme-100: #e0dfff;
+	--color-dark-theme-200: #cfcfff;
+	--color-dark-theme-300: #bfbfff;
+	--color-dark-theme-400: #aeadff;
 	--color-dark-theme-500: #19183b;
+	--color-dark-theme-600: #15142f;
+	--color-dark-theme-700: #121026;
 	--color-dark-theme-800: #0f0e31;
+	--color-dark-theme-900: #0b0a21;
 }
