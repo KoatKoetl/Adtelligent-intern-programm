@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
 	type RegisterFormData,
 	registerFormSchema,
@@ -80,6 +80,12 @@ const RegisterForm = () => {
 						>
 							{isSubmitting ? "Submitting..." : "Register"}
 						</DefaultButton>
+						<Link
+							to="/login"
+							className="inline-block mt-2 text-right w-full hover:underline underline-offset-2"
+						>
+							<span>Log in account</span>
+						</Link>
 					</form>
 				</CardContent>
 			</Card>
