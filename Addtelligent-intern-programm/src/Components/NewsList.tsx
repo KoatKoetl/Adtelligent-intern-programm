@@ -109,17 +109,7 @@ const NewsList = () => {
 					onChange={handleChange}
 					shape="rounded"
 					color="standard"
-					sx={{
-						"& .MuiPaginationItem-root": {
-							"&.Mui-selected": {
-								// Example for selected button
-								backgroundColor: "#fff", // White in dark mode
-								"&.dark:hover": {
-									backgroundColor: "gray",
-								},
-							},
-						},
-					}}
+					className="dark:bg-dark-theme-400 p-2 rounded-md"
 				/>
 			</Stack>
 		</>
