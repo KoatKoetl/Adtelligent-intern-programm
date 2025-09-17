@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router";
 import { HomePage } from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
+import NewsDetailPage from "../pages/NewsDetailPage";
+import NewsListPage from "../pages/NewsListPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import ProtectedRoute from "./ProtectedRoutes";
 
@@ -17,8 +19,8 @@ const RoutesComponent = () => {
 
 			{/* Страницы только для авторизованных */}
 			<Route element={<ProtectedRoute authenticate />}>
-				<Route path="/news" element={<h1>News</h1>} />
-				<Route path="/news/:id" element={<h1>News detail</h1>} />
+				<Route path="/news" element={<NewsListPage />} />
+				<Route path="/news/:id" element={<NewsDetailPage />} />
 			</Route>
 
 			<Route
