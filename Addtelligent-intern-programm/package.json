@@ -36,6 +36,7 @@
 		"vite": "7.1.5",
 		"vite-plugin-checker": "0.10.3",
 		"vite-plugin-compression": "0.5.1",
+		"vite-plugin-image-optimizer": "2.0.2",
 		"vite-plugin-inspect": "11.3.3",
 		"vite-plugin-svgr": "4.5.0"
 	}
