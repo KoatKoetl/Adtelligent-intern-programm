@@ -1,6 +1,5 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -8,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { Link } from "react-router";
 import newsJson from "../assets/json/news.mock.json";
+import ImageWithPlaceholder from "./ImageWithPlaceholder";
 
 const itemsPerPage = 6;
 
@@ -51,13 +51,11 @@ const NewsList = () => {
 									cursor: "pointer",
 								}}
 							>
-								<CardMedia
-									component="img"
-									height="300"
+								<ImageWithPlaceholder
 									image={item.image}
-									alt={item.title}
-									className="min-h-[300px]"
-									loading="lazy"
+									title={item.title}
+									height={300}
+									className="min-h-[300px] max-h-[300px]"
 								/>
 								<CardContent
 									sx={{ flexGrow: 1 }}

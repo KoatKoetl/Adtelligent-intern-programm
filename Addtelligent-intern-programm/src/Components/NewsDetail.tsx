@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { useLocation, useParams } from "react-router";
 import newsJson from "../assets/json/news.mock.json";
+import ImageWithPlaceholder from "./ImageWithPlaceholder";
 
 const NewsDetail = () => {
 	const { id } = useParams();
@@ -27,11 +27,11 @@ const NewsDetail = () => {
 			<Typography variant="h3" gutterBottom>
 				{newsItem.title}
 			</Typography>
-			<CardMedia
-				component="img"
+			<ImageWithPlaceholder
 				image={newsItem.image}
-				alt={newsItem.title}
-				sx={{ width: "100%", height: "auto", my: 2 }}
+				title={newsItem.title}
+				height={500}
+				className="min-h-[300px] max-h-[100%]"
 			/>
 			<Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
 				{newsItem.text}
