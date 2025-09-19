@@ -11,7 +11,9 @@ export const useLogin = () => {
 		onSuccess: (data) => {
 			queryClient.setQueryData(["user"], data);
 			console.log("Login successful!");
-			navigate("/news");
+			setTimeout(() => {
+				navigate("/news");
+			}, 0);
 		},
 		onError: (error) => {
 			console.error("Login failed:", error.message);
@@ -28,7 +30,9 @@ export const useRegister = () => {
 		onSuccess: (data) => {
 			queryClient.setQueryData(["user"], data);
 			console.log("Registration successful!");
-			navigate("/news");
+			setTimeout(() => {
+				navigate("/news");
+			}, 0);
 		},
 		onError: (error) => {
 			console.error("Registration failed:", error.message);
