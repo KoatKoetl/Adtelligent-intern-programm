@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import Loader from "../Components/Loader";
 
-const RegisterForm = lazy(() => import("../Components/RegistrationForm"));
+const RegisterForm = lazy(() => import("../Components/Forms/RegistrationForm"));
 
 const RegistrationPage = () => {
 	return (

@@ -1,12 +1,10 @@
 import { z } from "zod";
 
 export const loginFormSchema = z.object({
-	email: z
+	login: z
 		.string()
 		.nonempty({ message: "fieldRequired" })
-		.regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
-			message: "invalidEmail",
-		}),
+		.min(3, { message: "loginTooShort" }),
 	password: z
 		.string()
 		.nonempty({ message: "fieldRequired" })
