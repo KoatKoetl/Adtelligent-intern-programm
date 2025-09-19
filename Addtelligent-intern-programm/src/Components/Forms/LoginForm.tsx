@@ -1,22 +1,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
-import { loginFormSchema } from "../../zod/LoginForm/LoginForm.types";
+import { Link } from "react-router";
+import { z } from "zod";
+import { useLogin } from "../../hooks/useAuth";
 import DefaultButton from "../DefaultButton";
-import CustomForm from "./Custom-form";
+import CustomForm from "../Forms/Custom-form";
 import FormActions from "./FormActions";
 import FormField from "./FormField";
 
-interface LoginFormData {
-	login: string;
-	password: string;
-}
+const loginFormSchema = z.object({
+	login: z.string().min(1, "Login is required"),
+	password: z.string().min(1, "Password is required"),
+});
+
+type LoginFormData = z.infer<typeof loginFormSchema>;
 
 const LoginForm = () => {
 	const {
 		control,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors },
+		setError,
 	} = useForm<LoginFormData>({
 		defaultValues: {
 			login: "",
@@ -25,16 +29,18 @@ const LoginForm = () => {
 		resolver: zodResolver(loginFormSchema),
 	});
 
-	const navigate = useNavigate();
+	const loginMutation = useLogin();
 
 	const onSubmit = (data: LoginFormData) => {
-		console.log("Login submitted:", data);
-
-		const timer = setTimeout(() => {
-			navigate("/news");
-		}, 100);
-
-		return () => clearTimeout(timer);
+		loginMutation.mutate(data, {
+			onError: (error: Error) => {
+				if (error.message.includes("credentials")) {
+					setError("password", { message: "Invalid credentials" });
+				} else {
+					setError("root", { message: error.message });
+				}
+			},
+		});
 	};
 
 	return (
@@ -45,7 +51,7 @@ const LoginForm = () => {
 				placeholder="Enter your login"
 				control={control}
 				error={errors.login?.message}
-				disabled={isSubmitting}
+				disabled={loginMutation.isPending}
 			/>
 
 			<FormField
@@ -55,12 +61,22 @@ const LoginForm = () => {
 				placeholder="••••••••"
 				control={control}
 				error={errors.password?.message}
-				disabled={isSubmitting}
+				disabled={loginMutation.isPending}
 			/>
 
+			{errors.root && (
+				<div className="text-red-500 text-sm text-center">
+					{errors.root.message}
+				</div>
+			)}
+
 			<FormActions className="!mt-4">
-				<DefaultButton type="submit" className="w-full" disabled={isSubmitting}>
-					{isSubmitting ? "Logging in..." : "Log In"}
+				<DefaultButton
+					type="submit"
+					className="w-full"
+					disabled={loginMutation.isPending}
+				>
+					{loginMutation.isPending ? "Logging in..." : "Log In"}
 				</DefaultButton>
 
 				<Link

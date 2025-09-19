@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
-import { useAuthStore } from "../../store/authStore";
+import { Link } from "react-router";
+import { useRegister } from "../../hooks/useAuth";
 import {
 	type RegisterFormData,
 	registerFormSchema,
@@ -15,7 +15,8 @@ const RegisterForm = () => {
 	const {
 		control,
 		handleSubmit,
-		formState: { errors, isSubmitting },
+		formState: { errors },
+		setError,
 	} = useForm<RegisterFormData>({
 		defaultValues: {
 			username: "",
@@ -26,24 +27,20 @@ const RegisterForm = () => {
 		resolver: zodResolver(registerFormSchema),
 	});
 
-	const login = useAuthStore((state) => state.login);
-	const navigate = useNavigate();
+	const registerMutation = useRegister();
 
 	const onSubmit = (data: RegisterFormData) => {
-		console.log("Form submitted:", data.username, data.login);
-
-		login({
-			id: crypto.randomUUID(),
-			username: data.username,
-			email: data.login,
+		registerMutation.mutate(data, {
+			onError: (error: Error) => {
+				if (error.message.includes("already exists")) {
+					setError("login", { message: error.message });
+				} else if (error.message.includes("Passwords")) {
+					setError("confirmPassword", { message: error.message });
+				} else {
+					setError("root", { message: error.message });
+				}
+			},
 		});
-
-		console.log("Registration successful!");
-		const timer = setTimeout(() => {
-			navigate("/news");
-		}, 100);
-
-		return () => clearTimeout(timer);
 	};
 
 	return (
@@ -54,7 +51,7 @@ const RegisterForm = () => {
 				placeholder="Username"
 				control={control}
 				error={errors.username?.message}
-				disabled={isSubmitting}
+				disabled={registerMutation.isPending}
 			/>
 
 			<FormField
@@ -63,7 +60,7 @@ const RegisterForm = () => {
 				placeholder="Login"
 				control={control}
 				error={errors.login?.message}
-				disabled={isSubmitting}
+				disabled={registerMutation.isPending}
 			/>
 
 			<FormField
@@ -73,7 +70,7 @@ const RegisterForm = () => {
 				placeholder="••••••••"
 				control={control}
 				error={errors.password?.message}
-				disabled={isSubmitting}
+				disabled={registerMutation.isPending}
 			/>
 
 			<FormField
@@ -83,12 +80,22 @@ const RegisterForm = () => {
 				placeholder="••••••••"
 				control={control}
 				error={errors.confirmPassword?.message}
-				disabled={isSubmitting}
+				disabled={registerMutation.isPending}
 			/>
 
+			{errors.root && (
+				<div className="text-red-500 text-sm text-center">
+					{errors.root.message}
+				</div>
+			)}
+
 			<FormActions className="!mt-4">
-				<DefaultButton type="submit" className="w-full" disabled={isSubmitting}>
-					{isSubmitting ? "Submitting..." : "Register"}
+				<DefaultButton
+					type="submit"
+					className="w-full"
+					disabled={registerMutation.isPending}
+				>
+					{registerMutation.isPending ? "Registering..." : "Register"}
 				</DefaultButton>
 
 				<Link
