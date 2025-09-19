@@ -1,12 +1,19 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuthStore } from "../store/authStore";
+import Loader from "../Components/Loader";
+import { useUser } from "../hooks/useUser";
 
 interface ProtectedRouteProps {
 	authenticate?: boolean;
 }
 
 const ProtectedRoute = ({ authenticate = true }: ProtectedRouteProps) => {
-	const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+	const { data: user, isLoading } = useUser();
+
+	if (isLoading) {
+		return <Loader />;
+	}
+
+	const isLoggedIn = !!user;
 
 	if (authenticate && !isLoggedIn) {
 		return <Navigate to="/login" replace />;

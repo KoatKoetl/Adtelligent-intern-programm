@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import Loader from "../Components/Loader";
 
-const LoginForm = lazy(() => import("../Components/LoginForm"));
+const LoginForm = lazy(() => import("../Components/Forms/LoginForm"));
 
 const LoginPage = () => {
 	return (

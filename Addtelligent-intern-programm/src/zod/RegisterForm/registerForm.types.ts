@@ -6,12 +6,11 @@ export const registerFormSchema = z
 			.string()
 			.min(2, { message: "Username must be at least 2 characters" })
 			.max(50, { message: "Username cannot exceed 50 characters" }),
-		email: z
+		login: z
 			.string()
-			.nonempty({ message: "Email is required" })
-			.regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
-				message: "Email is invalid",
-			}),
+			.nonempty({ message: "Login is required" })
+			.min(3, { message: "Login must be at least 3 characters" })
+			.max(50, { message: "Login cannot exceed 50 characters" }),
 		password: z
 			.string()
 			.nonempty({ message: "Password is required" })
