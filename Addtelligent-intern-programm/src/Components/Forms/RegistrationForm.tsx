@@ -1,14 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
 import { useRegister } from "../../hooks/useAuth";
 import {
 	type RegisterFormData,
 	registerFormSchema,
 } from "../../zod/RegisterForm/registerForm.types";
-import DefaultButton from "../DefaultButton";
 import CustomForm from "./Custom-form";
-import FormActions from "./FormActions";
 import FormField from "./FormField";
 
 const RegisterForm = () => {
@@ -44,7 +41,21 @@ const RegisterForm = () => {
 	};
 
 	return (
-		<CustomForm title="Registration" onSubmit={handleSubmit(onSubmit)}>
+		<CustomForm
+			title="Registration"
+			onSubmit={handleSubmit(onSubmit)}
+			button={{
+				text: "Register",
+				loadingText: "Registering...",
+				disabled: registerMutation.isPending,
+				isLoading: registerMutation.isPending,
+			}}
+			link={{
+				to: "/login",
+				text: "Log in account",
+			}}
+			rootError={errors.root?.message}
+		>
 			<FormField
 				id={"username"}
 				label="Username"
@@ -88,23 +99,6 @@ const RegisterForm = () => {
 					{errors.root.message}
 				</div>
 			)}
-
-			<FormActions className="!mt-4">
-				<DefaultButton
-					type="submit"
-					className="w-full"
-					disabled={registerMutation.isPending}
-				>
-					{registerMutation.isPending ? "Registering..." : "Register"}
-				</DefaultButton>
-
-				<Link
-					to="/login"
-					className="inline-block mt-2 text-right w-full hover:underline underline-offset-2"
-				>
-					<span>Log in account</span>
-				</Link>
-			</FormActions>
 		</CustomForm>
 	);
 };

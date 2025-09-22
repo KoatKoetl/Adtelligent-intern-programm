@@ -1,11 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
 import { z } from "zod";
 import { useLogin } from "../../hooks/useAuth";
-import DefaultButton from "../DefaultButton";
 import CustomForm from "../Forms/Custom-form";
-import FormActions from "./FormActions";
 import FormField from "./FormField";
 
 const loginFormSchema = z.object({
@@ -44,7 +41,22 @@ const LoginForm = () => {
 	};
 
 	return (
-		<CustomForm title="Login" onSubmit={handleSubmit(onSubmit)}>
+		<CustomForm
+			title="Login"
+			onSubmit={handleSubmit(onSubmit)}
+			className=""
+			button={{
+				text: "Log In",
+				loadingText: "Logging in...",
+				disabled: loginMutation.isPending,
+				isLoading: loginMutation.isPending,
+			}}
+			link={{
+				to: "/register",
+				text: "Create an account",
+			}}
+			rootError={errors.root?.message}
+		>
 			<FormField
 				id={"login"}
 				label="Login"
@@ -69,23 +81,6 @@ const LoginForm = () => {
 					{errors.root.message}
 				</div>
 			)}
-
-			<FormActions className="!mt-4">
-				<DefaultButton
-					type="submit"
-					className="w-full"
-					disabled={loginMutation.isPending}
-				>
-					{loginMutation.isPending ? "Logging in..." : "Log In"}
-				</DefaultButton>
-
-				<Link
-					to="/register"
-					className="inline-block mt-2 text-center w-full hover:underline underline-offset-2"
-				>
-					<span>Create an account</span>
-				</Link>
-			</FormActions>
 		</CustomForm>
 	);
 };
