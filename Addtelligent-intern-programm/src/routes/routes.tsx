@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import { Route, Routes } from "react-router";
+import Loader from "../Components/Loader";
 import { HomePage } from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import NewsDetailPage from "../pages/NewsDetailPage";
@@ -13,14 +15,42 @@ const RoutesComponent = () => {
 
 			{/* Страницы для НЕ авторизованных */}
 			<Route element={<ProtectedRoute authenticate={false} />}>
-				<Route path="/login" element={<LoginPage />} />
-				<Route path="/register" element={<RegistrationPage />} />
+				<Route
+					path="/login"
+					element={
+						<Suspense fallback={<Loader />}>
+							<LoginPage />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/register"
+					element={
+						<Suspense fallback={<Loader />}>
+							<RegistrationPage />
+						</Suspense>
+					}
+				/>
 			</Route>
 
 			{/* Страницы только для авторизованных */}
 			<Route element={<ProtectedRoute authenticate />}>
-				<Route path="/news" element={<NewsListPage />} />
-				<Route path="/news/:id" element={<NewsDetailPage />} />
+				<Route
+					path="/news"
+					element={
+						<Suspense fallback={<Loader />}>
+							<NewsListPage />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/news/:id"
+					element={
+						<Suspense fallback={<Loader />}>
+							<NewsDetailPage />
+						</Suspense>
+					}
+				/>
 			</Route>
 
 			<Route

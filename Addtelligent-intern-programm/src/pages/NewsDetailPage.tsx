@@ -1,14 +1,9 @@
-import { lazy, Suspense } from "react";
-import Loader from "../Components/Loader";
+import { lazy } from "react";
 
 const NewsDetail = lazy(() => import("../Components/NewsDetail"));
 
 const NewsDetailPage = () => {
-	return (
-		<Suspense fallback={<Loader />}>
-			<NewsDetail />
-		</Suspense>
-	);
+	return <NewsDetail />;
 };
 
 export default NewsDetailPage;
