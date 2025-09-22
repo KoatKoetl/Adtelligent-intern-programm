@@ -46,12 +46,22 @@ const RegisterForm = () => {
 	const onSubmit = (data: RegisterFormData) => {
 		registerMutation.mutate(data, {
 			onError: (error: Error) => {
-				if (error.message.includes("already exists")) {
-					setError("login", { message: error.message });
-				} else if (error.message.includes("Passwords")) {
-					setError("confirmPassword", { message: error.message });
-				} else {
-					setError("root", { message: error.message });
+				switch (true) {
+					case error.message.includes("already exists"):
+						setError("login", { message: error.message });
+						break;
+					case error.message.includes("Passwords"):
+						setError("confirmPassword", { message: error.message });
+						break;
+					case error.message.includes("must match pattern"):
+						setError("password", {
+							message:
+								"Password must be at least 8 characters long and contain at least one letter and one number",
+						});
+						break;
+					default:
+						setError("root", { message: error.message });
+						break;
 				}
 			},
 		});
