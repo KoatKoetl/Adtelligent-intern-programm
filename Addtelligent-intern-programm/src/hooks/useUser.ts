@@ -1,9 +1,7 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { authApi } from "../api/authAPI";
 
 export const useUser = () => {
-	const queryClient = useQueryClient();
-
 	return useQuery({
 		queryKey: ["user"],
 		queryFn: async () => {
@@ -11,12 +9,28 @@ export const useUser = () => {
 				const user = await authApi.getCurrentUser();
 				return user;
 			} catch (error) {
-				console.error("Failed to fetch user:", error);
-				queryClient.setQueryData(["user"], null);
-				return null;
+				if (error) {
+					return null;
+				}
+				throw error;
 			}
 		},
-		// The user data becomes stale after 5 minutes, triggering a background re-fetch
+		retry: (failureCount, error) => {
+			if (error) return false;
+			return failureCount < 3;
+		},
 		staleTime: 1000 * 60 * 5,
+		gcTime: 1000 * 60 * 30,
 	});
+};
+
+export const useAuthStatus = () => {
+	const { data: user, isLoading, error } = useUser();
+
+	return {
+		user,
+		isAuthenticated: !!user,
+		isLoading,
+		isError: !!error,
+	};
 };
