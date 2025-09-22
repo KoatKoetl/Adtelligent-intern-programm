@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import type React from "react";
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
+import defaultImage from "../assets/images/defaultImage.webp";
 import pexelsImage from "../assets/images/pexels-photo-97050.webp";
 import newsJson from "../assets/json/news.mock.json";
 import ImageWithPlaceholder from "./ImageWithPlaceholder";
@@ -46,12 +47,7 @@ const NewsList = () => {
 				}}
 			>
 				{displayedNews.map((item) => {
-					const imageUrl = imageMap[item.image];
-
-					if (!imageUrl) {
-						console.error(`Image not found in map: ${item.image}`);
-						return null;
-					}
+					const imageUrl = imageMap[item.image] || defaultImage;
 
 					return (
 						<Grid size={4} key={item.id}>
