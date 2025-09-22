@@ -1,12 +1,13 @@
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router";
 import Loader from "../Components/Loader";
 import { HomePage } from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import NewsDetailPage from "../pages/NewsDetailPage";
-import NewsListPage from "../pages/NewsListPage";
-import RegistrationPage from "../pages/RegistrationPage";
 import ProtectedRoute from "./ProtectedRoutes";
+
+const RegistrationPage = lazy(() => import("../pages/RegistrationPage"));
+const LoginPage = lazy(() => import("../pages/LoginPage"));
+const NewsListPage = lazy(() => import("../pages/NewsListPage"));
+const NewsDetailPage = lazy(() => import("../pages/NewsDetailPage"));
 
 const RoutesComponent = () => {
 	return (

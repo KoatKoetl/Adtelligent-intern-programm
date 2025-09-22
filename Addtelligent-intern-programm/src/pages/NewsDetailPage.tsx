@@ -1,6 +1,4 @@
-import { lazy } from "react";
-
-const NewsDetail = lazy(() => import("../Components/NewsDetail"));
+import NewsDetail from "../Components/NewsDetail";
 
 const NewsDetailPage = () => {
 	return <NewsDetail />;

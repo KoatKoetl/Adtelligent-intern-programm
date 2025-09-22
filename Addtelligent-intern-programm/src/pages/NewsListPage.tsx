@@ -1,6 +1,4 @@
-import { lazy } from "react";
-
-const NewsList = lazy(() => import("../Components/NewsList"));
+import NewsList from "../Components/NewsList";
 
 const NewsListPage = () => {
 	return <NewsList />;

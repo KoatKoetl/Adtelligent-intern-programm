@@ -1,6 +1,4 @@
-import { lazy } from "react";
-
-const RegisterForm = lazy(() => import("../Components/Forms/RegistrationForm"));
+import RegisterForm from "../Components/Forms/RegistrationForm";
 
 const RegistrationPage = () => {
 	return <RegisterForm />;
