@@ -79,12 +79,6 @@ const LoginForm = () => {
 					disabled={loginMutation.isPending}
 				/>
 			))}
-
-			{errors.root && (
-				<div className="text-red-500 text-sm text-center">
-					{errors.root.message}
-				</div>
-			)}
 		</CustomForm>
 	);
 };
