@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter as Router } from "react-router";
-import Footer from "./Components/Footer";
-import Header from "./Components/Header";
+import Layout from "./Components/Layout";
 import { ThemeProvider } from "./providers/ThemeProvider";
 import RoutesComponent from "./routes/routes";
 
@@ -13,11 +12,9 @@ function App() {
 			<QueryClientProvider client={queryClient}>
 				<div className="min-h-screen bg-white dark:bg-dark-theme-500 text-black dark:text-white">
 					<Router>
-						<Header />
-						<div className="max-w-[1440px] mx-auto">
+						<Layout>
 							<RoutesComponent />
-						</div>
-						<Footer />
+						</Layout>
 					</Router>
 				</div>
 			</QueryClientProvider>
