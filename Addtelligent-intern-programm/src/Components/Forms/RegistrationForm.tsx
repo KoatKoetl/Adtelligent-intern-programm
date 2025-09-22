@@ -8,6 +8,23 @@ import {
 import CustomForm from "./Custom-form";
 import FormField from "./FormField";
 
+const formFields = [
+	{ id: "username", label: "Username", placeholder: "Username" },
+	{ id: "login", label: "Login", placeholder: "Login" },
+	{
+		id: "password",
+		label: "Password",
+		type: "password",
+		placeholder: "••••••••",
+	},
+	{
+		id: "confirmPassword",
+		label: "Confirm Password",
+		type: "password",
+		placeholder: "••••••••",
+	},
+];
+
 const RegisterForm = () => {
 	const {
 		control,
@@ -56,43 +73,18 @@ const RegisterForm = () => {
 			}}
 			rootError={errors.root?.message}
 		>
-			<FormField
-				id={"username"}
-				label="Username"
-				placeholder="Username"
-				control={control}
-				error={errors.username?.message}
-				disabled={registerMutation.isPending}
-			/>
-
-			<FormField
-				id={"login"}
-				label="Login"
-				placeholder="Login"
-				control={control}
-				error={errors.login?.message}
-				disabled={registerMutation.isPending}
-			/>
-
-			<FormField
-				id={"password"}
-				label="Password"
-				type="password"
-				placeholder="••••••••"
-				control={control}
-				error={errors.password?.message}
-				disabled={registerMutation.isPending}
-			/>
-
-			<FormField
-				id={"confirmPassword"}
-				label="Confirm Password"
-				type="password"
-				placeholder="••••••••"
-				control={control}
-				error={errors.confirmPassword?.message}
-				disabled={registerMutation.isPending}
-			/>
+			{formFields.map((field) => (
+				<FormField
+					key={field.id}
+					id={field.id as keyof RegisterFormData}
+					label={field.label}
+					placeholder={field.placeholder}
+					type={field.type}
+					control={control}
+					error={errors[field.id as keyof RegisterFormData]?.message}
+					disabled={registerMutation.isPending}
+				/>
+			))}
 
 			{errors.root && (
 				<div className="text-red-500 text-sm text-center">

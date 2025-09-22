@@ -12,6 +12,16 @@ const loginFormSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginFormSchema>;
 
+const formFields = [
+	{ id: "login", label: "Login", placeholder: "Login" },
+	{
+		id: "password",
+		label: "Password",
+		type: "password",
+		placeholder: "••••••••",
+	},
+];
+
 const LoginForm = () => {
 	const {
 		control,
@@ -57,24 +67,18 @@ const LoginForm = () => {
 			}}
 			rootError={errors.root?.message}
 		>
-			<FormField
-				id={"login"}
-				label="Login"
-				placeholder="Enter your login"
-				control={control}
-				error={errors.login?.message}
-				disabled={loginMutation.isPending}
-			/>
-
-			<FormField
-				id={"password"}
-				label="Password"
-				type="password"
-				placeholder="••••••••"
-				control={control}
-				error={errors.password?.message}
-				disabled={loginMutation.isPending}
-			/>
+			{formFields.map((field) => (
+				<FormField
+					key={field.id}
+					id={field.id as keyof LoginFormData}
+					label={field.label}
+					placeholder={field.placeholder}
+					type={field.type}
+					control={control}
+					error={errors[field.id as keyof LoginFormData]?.message}
+					disabled={loginMutation.isPending}
+				/>
+			))}
 
 			{errors.root && (
 				<div className="text-red-500 text-sm text-center">
