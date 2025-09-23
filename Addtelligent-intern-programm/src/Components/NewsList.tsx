@@ -5,34 +5,41 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type React from "react";
-import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
+import type { NewsItem } from "../api/api.types";
 import defaultImage from "../assets/images/defaultImage.webp";
-import pexelsImage from "../assets/images/pexels-photo-97050.webp";
-import newsJson from "../assets/json/news.mock.json";
+import { useFeedStatus } from "../hooks/useFeed";
 import ImageWithPlaceholder from "./ImageWithPlaceholder";
-
-const imageMap: { [key: string]: string } = {
-	"pexels-photo-97050.webp": pexelsImage,
-};
+import Loader from "./Loader";
 
 const itemsPerPage = 6;
 
 const NewsList = () => {
+	const { feedData, isLoading, error } = useFeedStatus();
+
 	const [searchParams, setSearchParams] = useSearchParams();
 	const currentPage = parseInt(searchParams.get("page") || "1", 10);
-	const totalPages = Math.ceil(newsJson.length / itemsPerPage);
+
+	const totalItems = feedData?.data.total || 0;
+	const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
+	const displayedNews = feedData?.data.items.slice(startIndex, endIndex) || [];
 
 	const handleChange = (_e: React.ChangeEvent<unknown>, value: number) => {
 		setSearchParams({ page: value.toString() });
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	};
 
-	const displayedNews = useMemo(() => {
-		const startIndex = (currentPage - 1) * itemsPerPage;
-		const endIndex = startIndex + itemsPerPage;
-		return newsJson.slice(startIndex, endIndex);
-	}, [currentPage]);
+	if (isLoading) {
+		return <Loader />;
+	}
+	if (error) {
+		return (
+			<div className="p-4 text-center text-red-500">Error: {error.message}</div>
+		);
+	}
 
 	return (
 		<>
@@ -46,9 +53,9 @@ const NewsList = () => {
 					alignItems: "flex-start",
 				}}
 			>
-				{displayedNews.map((item) => {
-					const imageUrl = imageMap[item.image] || defaultImage;
-
+				{displayedNews.map((item: NewsItem) => {
+					console.log(item);
+					const imageUrl = item.imageUrl ? item.imageUrl : defaultImage;
 					return (
 						<Grid size={4} key={item.id}>
 							<Link to={`/news/${item.id}`} state={{ newsItem: item }}>
@@ -89,7 +96,7 @@ const NewsList = () => {
 											}}
 											color="text.secondary"
 										>
-											{item.text}
+											{item.description}
 										</Typography>
 									</CardContent>
 								</Card>
@@ -99,14 +106,16 @@ const NewsList = () => {
 				})}
 			</Grid>
 			<Stack spacing={2} sx={{ my: 2, alignItems: "center" }}>
-				<Pagination
-					count={totalPages}
-					page={currentPage}
-					onChange={handleChange}
-					shape="rounded"
-					color="standard"
-					className="dark:bg-dark-theme-400 p-2 rounded-md"
-				/>
+				{totalPages > 1 && (
+					<Pagination
+						count={totalPages}
+						page={currentPage}
+						onChange={handleChange}
+						shape="rounded"
+						color="standard"
+						className="dark:bg-dark-theme-400 p-2 rounded-md"
+					/>
+				)}
 			</Stack>
 		</>
 	);

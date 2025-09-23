@@ -20,3 +20,15 @@ export interface ApiError {
 	message: string;
 	status: number;
 }
+
+export interface NewsItem {
+	author: string;
+	description: string;
+	feedUrl: string;
+	guid: string;
+	id: string;
+	link: string;
+	pubDate: string;
+	title: string;
+	imageUrl?: string;
+}

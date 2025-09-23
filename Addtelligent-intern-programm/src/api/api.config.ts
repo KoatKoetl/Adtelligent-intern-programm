@@ -6,5 +6,6 @@ export const API_CONFIG = {
 		REGISTER: "/auth/register",
 		CURRENT_USER: "/auth/me",
 		LOGOUT: "/auth/logout",
+		FEED: "/feed",
 	},
 };
