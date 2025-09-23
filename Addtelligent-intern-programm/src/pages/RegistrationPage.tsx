@@ -1,14 +1,7 @@
-import { lazy, Suspense } from "react";
-import Loader from "../Components/Loader";
-
-const RegisterForm = lazy(() => import("../Components/Forms/RegistrationForm"));
+import RegisterForm from "../Components/Forms/RegistrationForm";
 
 const RegistrationPage = () => {
-	return (
-		<Suspense fallback={<Loader />}>
-			<RegisterForm />
-		</Suspense>
-	);
+	return <RegisterForm />;
 };
 
 export default RegistrationPage;

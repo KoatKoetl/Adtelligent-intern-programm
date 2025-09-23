@@ -8,12 +8,10 @@ export const useLogin = () => {
 
 	return useMutation({
 		mutationFn: authApi.login,
-		onSuccess: (data) => {
-			queryClient.setQueryData(["user"], data);
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["user"] });
 			console.log("Login successful!");
-			setTimeout(() => {
-				navigate("/news");
-			}, 0);
+			setTimeout(() => navigate("/news"), 0);
 		},
 		onError: (error) => {
 			console.error("Login failed:", error.message);
@@ -27,12 +25,10 @@ export const useRegister = () => {
 
 	return useMutation({
 		mutationFn: authApi.register,
-		onSuccess: (data) => {
-			queryClient.setQueryData(["user"], data);
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["user"] });
 			console.log("Registration successful!");
-			setTimeout(() => {
-				navigate("/news");
-			}, 0);
+			setTimeout(() => navigate("/login"), 0);
 		},
 		onError: (error) => {
 			console.error("Registration failed:", error.message);

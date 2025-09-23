@@ -12,5 +12,10 @@ export const useLogout = () => {
 			queryClient.setQueryData(["user"], null);
 			navigate("/");
 		},
+		onError: (error) => {
+			console.error("Logout failed:", error.message);
+			queryClient.setQueryData(["user"], null);
+			navigate("/");
+		},
 	});
 };

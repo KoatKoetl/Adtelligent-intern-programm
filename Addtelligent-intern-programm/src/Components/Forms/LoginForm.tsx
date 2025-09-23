@@ -1,11 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
 import { z } from "zod";
 import { useLogin } from "../../hooks/useAuth";
-import DefaultButton from "../DefaultButton";
 import CustomForm from "../Forms/Custom-form";
-import FormActions from "./FormActions";
 import FormField from "./FormField";
 
 const loginFormSchema = z.object({
@@ -14,6 +11,16 @@ const loginFormSchema = z.object({
 });
 
 type LoginFormData = z.infer<typeof loginFormSchema>;
+
+const formFields = [
+	{ id: "login", label: "Login", placeholder: "Login" },
+	{
+		id: "password",
+		label: "Password",
+		type: "password",
+		placeholder: "••••••••",
+	},
+];
 
 const LoginForm = () => {
 	const {
@@ -44,48 +51,34 @@ const LoginForm = () => {
 	};
 
 	return (
-		<CustomForm title="Login" onSubmit={handleSubmit(onSubmit)}>
-			<FormField
-				id={"login"}
-				label="Login"
-				placeholder="Enter your login"
-				control={control}
-				error={errors.login?.message}
-				disabled={loginMutation.isPending}
-			/>
-
-			<FormField
-				id={"password"}
-				label="Password"
-				type="password"
-				placeholder="••••••••"
-				control={control}
-				error={errors.password?.message}
-				disabled={loginMutation.isPending}
-			/>
-
-			{errors.root && (
-				<div className="text-red-500 text-sm text-center">
-					{errors.root.message}
-				</div>
-			)}
-
-			<FormActions className="!mt-4">
-				<DefaultButton
-					type="submit"
-					className="w-full"
+		<CustomForm
+			title="Login"
+			onSubmit={handleSubmit(onSubmit)}
+			className=""
+			button={{
+				text: "Log In",
+				loadingText: "Logging in...",
+				disabled: loginMutation.isPending,
+				isLoading: loginMutation.isPending,
+			}}
+			link={{
+				to: "/register",
+				text: "Create an account",
+			}}
+			rootError={errors.root?.message}
+		>
+			{formFields.map((field) => (
+				<FormField
+					key={field.id}
+					id={field.id as keyof LoginFormData}
+					label={field.label}
+					placeholder={field.placeholder}
+					type={field.type}
+					control={control}
+					error={errors[field.id as keyof LoginFormData]?.message}
 					disabled={loginMutation.isPending}
-				>
-					{loginMutation.isPending ? "Logging in..." : "Log In"}
-				</DefaultButton>
-
-				<Link
-					to="/register"
-					className="inline-block mt-2 text-center w-full hover:underline underline-offset-2"
-				>
-					<span>Create an account</span>
-				</Link>
-			</FormActions>
+				/>
+			))}
 		</CustomForm>
 	);
 };

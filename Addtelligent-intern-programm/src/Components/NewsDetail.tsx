@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useLocation, useParams } from "react-router";
+import defaultImage from "../assets/images/defaultImage.webp";
 import pexelsImage from "../assets/images/pexels-photo-97050.webp";
 import newsJson from "../assets/json/news.mock.json";
 import ImageWithPlaceholder from "./ImageWithPlaceholder";
@@ -27,17 +28,7 @@ const NewsDetail = () => {
 		);
 	}
 
-	const imageUrl = imageMap[newsItem.image];
-
-	if (!imageUrl) {
-		return (
-			<Box sx={{ maxWidth: 800, margin: "auto", padding: "20px" }}>
-				<Typography variant="h4" align="center" sx={{ mt: 5 }}>
-					Image for this article not found.
-				</Typography>
-			</Box>
-		);
-	}
+	const imageUrl = imageMap[newsItem.image] || defaultImage;
 
 	return (
 		<Box sx={{ maxWidth: 800, margin: "auto", padding: "20px" }}>

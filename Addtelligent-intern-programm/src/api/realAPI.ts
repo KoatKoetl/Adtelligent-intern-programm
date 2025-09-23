@@ -11,6 +11,7 @@ export const realAuthApi = {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(data),
+				credentials: "include",
 			},
 		);
 
@@ -31,6 +32,7 @@ export const realAuthApi = {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(data),
+				credentials: "include",
 			},
 		);
 
@@ -50,6 +52,7 @@ export const realAuthApi = {
 				headers: {
 					"Content-Type": "application/json",
 				},
+				credentials: "include",
 			},
 		);
 
@@ -65,9 +68,7 @@ export const realAuthApi = {
 			`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.LOGOUT}`,
 			{
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				credentials: "include",
 			},
 		);
 

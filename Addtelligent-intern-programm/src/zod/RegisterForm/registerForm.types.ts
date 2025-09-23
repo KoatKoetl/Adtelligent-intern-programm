@@ -14,7 +14,10 @@ export const registerFormSchema = z
 		password: z
 			.string()
 			.nonempty({ message: "Password is required" })
-			.min(6, { message: "Password must be at least 6 characters" }),
+			.min(8, { message: "Password must be at least 8 characters" })
+			.regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, {
+				message: "Password must contain at least one letter and one number",
+			}),
 		confirmPassword: z
 			.string()
 			.nonempty({ message: "Please confirm your password" }),
