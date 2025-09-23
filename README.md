@@ -2,7 +2,10 @@
 
 A web application for the Addtelligent Intern Programm.
 
+Vercel have some problems so deployed also on netlify
 Deployed on Vercel: https://adtelligent-intern-programm.vercel.app/
+or
+Deployed on Netlify: https://adtelligent-front.netlify.app/
 
 ## Technologies Used Front-end
 
@@ -13,5 +16,6 @@ Deployed on Vercel: https://adtelligent-intern-programm.vercel.app/
 * Zustand
 * React Hook Forms
 * Vercel
+
 
 
