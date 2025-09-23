@@ -54,11 +54,10 @@ const NewsList = () => {
 				}}
 			>
 				{displayedNews.map((item: NewsItem) => {
-					console.log(item);
 					const imageUrl = item.imageUrl ? item.imageUrl : defaultImage;
 					return (
 						<Grid size={4} key={item.id}>
-							<Link to={`/news/${item.id}`} state={{ newsItem: item }}>
+							<Link to={`/news/${item.id}`} state={{ detailUrl: item.link }}>
 								<Card
 									sx={{
 										height: "100%",
