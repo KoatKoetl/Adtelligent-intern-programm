@@ -7,5 +7,6 @@ export const API_CONFIG = {
 		CURRENT_USER: "/auth/me",
 		LOGOUT: "/auth/logout",
 		FEED: "/feed",
+		ARTICLE: "/feed/article",
 	},
 };
