@@ -74,25 +74,6 @@ const PrebidLogs = () => {
 			<div className="mb-6">
 				<h2 className="text-2xl font-bold mb-4">Prebid Logs Monitor</h2>
 				<AdSlot slotId="test-1" />
-				<div
-					className={`p-3 rounded mb-4 ${
-						prebidStatus === "loaded"
-							? "bg-green-100 text-green-800"
-							: prebidStatus === "not_loaded"
-								? "bg-red-100 text-red-800"
-								: "bg-yellow-100 text-yellow-800"
-					}`}
-				>
-					<strong>Prebid Status:</strong>{" "}
-					{prebidStatus === "loaded"
-						? "✓ Loaded"
-						: prebidStatus === "not_loaded"
-							? "✗ Not Loaded"
-							: "⏳ Checking..."}
-					{window.pbjs?.version && (
-						<span className="ml-2">(Version: {window.pbjs.version})</span>
-					)}
-				</div>
 			</div>
 
 			<AdSlot slotId="test-2" />

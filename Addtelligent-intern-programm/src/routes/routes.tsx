@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router";
+import { Navigate, Route, Routes } from "react-router";
 import Loader from "../Components/Loader";
 import { HomePage } from "../pages/HomePage";
 import ProtectedRoute from "./ProtectedRoutes";
@@ -69,9 +69,13 @@ const RoutesComponent = () => {
 			<Route
 				path="/prebid-logs"
 				element={
-					<Suspense fallback={<Loader />}>
-						<PrebidLogs />
-					</Suspense>
+					typeof window.pbjs !== "undefined" ? (
+						<Suspense fallback={<Loader />}>
+							<PrebidLogs />
+						</Suspense>
+					) : (
+						<Navigate to="/" />
+					)
 				}
 			/>
 		</Routes>
