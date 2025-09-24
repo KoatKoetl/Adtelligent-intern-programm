@@ -8,30 +8,15 @@ const initializePrebid = () => {
 	const adUnits = [
 		{
 			code: "ad-frame-1",
-			targetSelector: "#test-1",
+			targetSelector: "#after-header",
 			mediaTypes: { banner: { sizes: [[728, 90]] } },
-			bids: [
-				{ bidder: "adtelligent", params: { aid: 350975 } },
-				{ bidder: "bidmatic", params: { source: 886409 } },
-			],
+			bids: [{ bidder: "adtelligent", params: { aid: 350975 } }],
 		},
 		{
 			code: "ad-frame-2",
-			targetSelector: "#test-2",
+			targetSelector: "#before-footer",
 			mediaTypes: { banner: { sizes: [[728, 90]] } },
-			bids: [
-				{ bidder: "adtelligent", params: { aid: 350975 } },
-				{ bidder: "bidmatic", params: { source: 886409 } },
-			],
-		},
-		{
-			code: "ad-frame-3",
-			targetSelector: "#test-3",
-			mediaTypes: { banner: { sizes: [[728, 90]] } },
-			bids: [
-				{ bidder: "adtelligent", params: { aid: 350975 } },
-				{ bidder: "bidmatic", params: { source: 886409 } },
-			],
+			bids: [{ bidder: "bidmatic", params: { source: 886409 } }],
 		},
 	];
 
@@ -117,7 +102,7 @@ const initializePrebid = () => {
 
 							if (doc) {
 								window.pbjs.renderAd(doc, winningBid.adId);
-								console.log(`Ad rendered dynamically at ${adUnitCode}.`);
+								console.log(`Ad rendered dynamically for ${adUnitCode}.`);
 							}
 						}
 					} else {
