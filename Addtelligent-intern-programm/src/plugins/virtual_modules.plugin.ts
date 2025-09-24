@@ -1,23 +1,26 @@
-function virtualModules() {
-	const modulesEnv = process.env.VITE_MODULES || "";
-	const modules = modulesEnv
-		.split(",")
-		.map((m) => m.trim())
-		.filter(Boolean);
+import type { Plugin } from "vite";
+
+export type VirtualModulesOptions = {
+	selectedModules?: string[];
+};
+
+function virtualModules(options: VirtualModulesOptions = {}): Plugin {
+	const selected = options.selectedModules ?? [];
 
 	return {
-		name: "virtual-modules",
-		resolveId(id: string) {
-			if (id === "virtual:plugins") {
-				return id;
-			}
+		name: "vite-virtual-modules",
+
+		async resolveId(id) {
+			if (id === "virtual:plugins") return id;
 			return null;
 		},
-		load(id: string) {
+		load(id) {
 			if (id === "virtual:plugins") {
-				return modules
-					.map((m: string) => `import './src/modules/${m}.ts';`)
+				const imports = selected
+					.filter(Boolean)
+					.map((m) => `import "@modules/${m}.js";`)
 					.join("\n");
+				return `${imports}`;
 			}
 			return null;
 		},
