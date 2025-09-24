@@ -8,6 +8,8 @@ const RegistrationPage = lazy(() => import("../pages/RegistrationPage"));
 const LoginPage = lazy(() => import("../pages/LoginPage"));
 const NewsListPage = lazy(() => import("../pages/NewsListPage"));
 const NewsDetailPage = lazy(() => import("../pages/NewsDetailPage"));
+// @ts-expect-error-next-line
+const PrebidLogs = lazy(() => import("../Components/PrebidLogs"));
 
 const RoutesComponent = () => {
 	return (
@@ -61,6 +63,15 @@ const RoutesComponent = () => {
 						<span>404</span>
 						<span>Not Found</span>
 					</h1>
+				}
+			/>
+
+			<Route
+				path="/prebid-logs"
+				element={
+					<Suspense fallback={<Loader />}>
+						<PrebidLogs />
+					</Suspense>
 				}
 			/>
 		</Routes>
