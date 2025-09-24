@@ -144,8 +144,10 @@ const initializePrebid = () => {
 					if (bids.length > 0) {
 						const winningBid = bids[0];
 
-						const containerDiv = document.getElementById(adUnitCode);
-
+						let containerDiv = document.getElementById(adUnitCode);
+						if (!containerDiv) {
+							containerDiv = createAdContainer(adUnitCode, targetSelector);
+						}
 						if (containerDiv) {
 							const iframe = document.createElement("iframe");
 							iframe.id = `pbjs-iframe-${adUnitCode}`;
