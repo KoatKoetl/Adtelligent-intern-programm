@@ -1,17 +1,30 @@
-# Addtelligent Intern Programm
+ BidWon Event
+================
+BidWon - это событие, которое происходит, когда Ad Server принял решение о победителе в аукционе. Это событие НЕ ДОЛЖНО быть использовано для рендеринга, а только для аналитики и трекинга.
+Важные детали
+-------------
+*   BidWon срабатывает ПОСЛЕ того, как Ad Server принял решение
+*   К этому моменту слот уже может быть заполнен другой рекламой
+*   Попытка рендерить в BidWon может перезаписать уже показанную рекламу
 
-A web application for the Addtelligent Intern Programm.
+Подходы к использованию
+------------------------
 
-Deployed on Vercel: https://adtelligent-intern-programm.vercel.app/
+### 1. Get Highest CPM Bids
 
-## Technologies Used Front-end
+*   ПОДХОД: pbjs.getHighestCpmBids()
+*   КОГДА ИСПОЛЬЗОВАТЬ:
+	+   Интеграция с Ad Server (DFP/GAM)
+	+   Когда нужно передать winning bid в Ad Server
+	+   Server-side рендеринг через Ad Server
 
-* React
-* TypeScript
-* Tailwind CSS
-* Zod
-* Zustand
-* React Hook Forms
-* Vercel
+### 2. On Bid Response Event
 
+*   ПОДХОД: pbjs.onEvent('bidResponse')
+*   КОГДА ИСПОЛЬЗОВАТЬ:
+	+   Client-side рендеринг
+	+   Real-time обработка каждой ставки
+	+   Кастомная логика выбора победителя
+	+   Аналитика и логирование всех ответов
+	+   Когда нужно реагировать на каждую ставку отдельно
 
