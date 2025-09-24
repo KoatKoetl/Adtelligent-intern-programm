@@ -117,7 +117,7 @@ const initializePrebid = () => {
 		const container = document.getElementById(adUnitCode);
 		if (container) {
 			container.innerHTML = "";
-			console.log(`Cleared content of ad container: ${adUnitCode}`);
+			console.log(`Refresh: Cleared content of ad container: ${adUnitCode}`);
 		}
 	}
 
@@ -167,15 +167,17 @@ const initializePrebid = () => {
 
 							if (doc) {
 								window.pbjs.renderAd(doc, winningBid.adId);
-								console.log(`Ad rendered dynamically for ${adUnitCode}.`);
+								console.log(
+									`Refresh: Ad rendered dynamically for ${adUnitCode}.`,
+								);
 							}
 						} else {
 							console.error(
-								`Container div ${adUnitCode} not found for refresh.`,
+								`Refresh: Container div ${adUnitCode} not found for refresh.`,
 							);
 						}
 					} else {
-						console.log(`No bids received for ${adUnitCode}.`);
+						console.log(`Refresh: No bids received for ${adUnitCode}.`);
 					}
 				});
 			},
