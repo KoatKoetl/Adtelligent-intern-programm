@@ -30,6 +30,7 @@ const PrebidLogs = () => {
 			// console.log(`[Prebid Event] ${eventName}:`, data);
 			setLogs((prevLogs) => {
 				const newLog = {
+					id: prevLogs.length + 1,
 					eventName,
 					data,
 					timestamp: new Date().toLocaleTimeString(),
@@ -92,9 +93,9 @@ const PrebidLogs = () => {
 					</div>
 				) : (
 					<div className="space-y-2 max-h-[70svh] overflow-y-auto">
-						{logs.map((log, index) => (
+						{logs.map((log) => (
 							<div
-								key={index++}
+								key={log.id}
 								className="bg-white p-3 rounded border-l-4 border-blue-400"
 							>
 								<div className="flex justify-between items-start mb-1">

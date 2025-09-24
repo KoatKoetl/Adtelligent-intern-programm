@@ -15,8 +15,12 @@ const AdSlot: React.FC<AdSlotProps> = ({
 }) => {
 	return (
 		<div
-			className={`w-[${width ? `${width}px` : "auto"}] h-[${height ? `${height}px` : "auto"}] ${className}`}
+			className={className}
 			id={slotId}
+			style={{
+				width: width ? `${width}px` : "auto",
+				height: height ? `${height}px` : "auto",
+			}}
 		></div>
 	);
 };

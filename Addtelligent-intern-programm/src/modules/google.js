@@ -36,7 +36,7 @@ const initializeGoogle = () => {
 	};
 
 	/**
-	 * Отладочная функция
+	 * Debug function
 	 */
 	function debugLog(message, data = null) {
 		if (DEBUG_MODE) {
@@ -46,7 +46,7 @@ const initializeGoogle = () => {
 
 	function handleLocalhostIssues() {
 		if (IS_LOCALHOST) {
-			console.warn(`⚠️ Localhost detected (${window.location.hostname})`);
+			console.warn(` Localhost detected (${window.location.hostname})`);
 			console.warn("🔧 Google Ads have limitations on localhost. Consider:");
 			console.warn("   1. Use ngrok or live server with real domain");
 			console.warn("   2. Add localhost exceptions to browser");
@@ -60,7 +60,7 @@ const initializeGoogle = () => {
 	}
 
 	/**
-	 * Создание контейнера с fallback для отсутствующих селекторов
+	 * Generate a container for missing selectors
 	 */
 	function createAdContainer(adUnitCode, targetSelector) {
 		debugLog(
@@ -70,7 +70,7 @@ const initializeGoogle = () => {
 		let targetElement = document.querySelector(targetSelector);
 
 		if (!targetElement) {
-			console.warn(`⚠️ Target element not found: ${targetSelector}`);
+			console.warn(` Target element not found: ${targetSelector}`);
 
 			const alternatives = [
 				"body",
@@ -117,7 +117,7 @@ const initializeGoogle = () => {
 				<div style="text-align: center; padding: 20px;">
 					<strong>Google Ad: ${adUnitCode}</strong><br>
 					<small style="color: #666;">
-						${IS_LOCALHOST ? "⚠️ Localhost mode" : " Production mode"}<br>
+						${IS_LOCALHOST ? " Localhost mode" : " Production mode"}<br>
 						Slot: ${googleAdUnits.find((u) => u.code === adUnitCode)?.slotName || "Unknown"}
 					</small>
 				</div>`;
@@ -162,7 +162,7 @@ const initializeGoogle = () => {
 
 				setTimeout(() => {
 					clearInterval(checkReady);
-					console.warn("⚠️ GPT timeout, but continuing...");
+					console.warn(" GPT timeout, but continuing...");
 					resolve();
 				}, 5000);
 				return;
@@ -275,11 +275,11 @@ const initializeGoogle = () => {
 							const container = document.getElementById(slotId);
 							if (container) {
 								if (event.isEmpty) {
-									console.warn(`⚠️ Empty ad slot: ${slotId}`);
+									console.warn(` Empty ad slot: ${slotId}`);
 									if (DEBUG_MODE) {
 										container.innerHTML = `
 										<div style="padding: 20px; background: #fff3cd; border: 1px solid #ffc107; text-align: center; border-radius: 4px;">
-											<strong>⚠️ No Ad Available</strong><br>
+											<strong> No Ad Available</strong><br>
 											<small>Slot: ${slotId}<br>
 											${IS_LOCALHOST ? "Localhost limitations may apply" : "Check ad configuration"}</small>
 										</div>`;
@@ -474,7 +474,7 @@ const initializeGoogle = () => {
 	}
 
 	/**
-	 * Основная инициализация
+	 * Main initialization
 	 */
 	async function startGoogleInitialization() {
 		try {
