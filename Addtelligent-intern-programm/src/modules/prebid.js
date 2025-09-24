@@ -9,7 +9,7 @@ const initializePrebid = () => {
 		{
 			code: "ad-frame-1",
 			targetSelector: "#after-header",
-			mediaTypes: { banner: { sizes: [[728, 90]] } },
+			mediaTypes: { banner: { sizes: [[970, 90]] } },
 			bids: [{ bidder: "adtelligent", params: { aid: 350975 } }],
 		},
 		{
