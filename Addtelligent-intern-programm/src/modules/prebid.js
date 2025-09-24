@@ -63,9 +63,7 @@ const initializePrebid = () => {
 
 		window.pbjs.requestBids({
 			timeout: PREBID_TIMEOUT,
-			bidsBackHandler: (bidResponse) => {
-				console.log(bidResponse);
-
+			bidsBackHandler: (_bidResponse) => {
 				adUnits.forEach((unit) => {
 					const adUnitCode = unit.code;
 					const targetSelector = unit.targetSelector;
@@ -115,6 +113,76 @@ const initializePrebid = () => {
 		});
 	}
 
+	function clearAdContainerContent(adUnitCode) {
+		const container = document.getElementById(adUnitCode);
+		if (container) {
+			container.innerHTML = "";
+			console.log(`Cleared content of ad container: ${adUnitCode}`);
+		}
+	}
+
+	function refreshAds() {
+		console.log("Starting ad refresh process (No container destruction)...");
+
+		adUnits.forEach((unit) => {
+			const adUnitCode = unit.code;
+			clearAdContainerContent(adUnitCode);
+			window.pbjs.removeAdUnit(adUnitCode);
+		});
+
+		window.pbjs.addAdUnits(adUnits);
+
+		window.pbjs.requestBids({
+			timeout: PREBID_TIMEOUT,
+			bidsBackHandler: (bidResponse) => {
+				console.log("Bids received:", bidResponse);
+
+				adUnits.forEach((unit) => {
+					const adUnitCode = unit.code;
+					const bids = window.pbjs.getHighestCpmBids(adUnitCode);
+
+					if (bids.length > 0) {
+						const winningBid = bids[0];
+
+						const containerDiv = document.getElementById(adUnitCode);
+
+						if (containerDiv) {
+							const iframe = document.createElement("iframe");
+							iframe.id = `pbjs-iframe-${adUnitCode}`;
+							iframe.width = winningBid.width
+								? String(winningBid.width)
+								: "728";
+							iframe.height = winningBid.height
+								? String(winningBid.height)
+								: "90";
+							iframe.setAttribute("frameborder", "0");
+							iframe.setAttribute("scrolling", "no");
+							iframe.style.border = "none";
+
+							containerDiv.appendChild(iframe);
+
+							const doc = iframe.contentWindow
+								? iframe.contentWindow.document
+								: null;
+
+							if (doc) {
+								window.pbjs.renderAd(doc, winningBid.adId);
+								console.log(`Ad rendered dynamically for ${adUnitCode}.`);
+							}
+						} else {
+							console.error(
+								`Container div ${adUnitCode} not found for refresh.`,
+							);
+						}
+					} else {
+						console.log(`No bids received for ${adUnitCode}.`);
+					}
+				});
+			},
+		});
+	}
+
+	window.refreshAds = refreshAds;
 	window.pbjs.que.push(initPrebid);
 };
 

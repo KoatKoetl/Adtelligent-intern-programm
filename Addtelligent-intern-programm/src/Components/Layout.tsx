@@ -1,8 +1,11 @@
+import useAdRefresh from "../hooks/useAdsRefresh";
 import AdSlot from "./AdSlot";
 import Footer from "./Footer";
 import Header from "./Header";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+	useAdRefresh();
+
 	return (
 		<div className="min-h-screen bg-white dark:bg-dark-theme-500 text-black dark:text-white">
 			<Header />
