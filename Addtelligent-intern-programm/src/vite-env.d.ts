@@ -4,3 +4,5 @@ declare module "*.svg?react" {
 	const content: FC<SVGProps<SVGSVGElement>>;
 	export default content;
 }
+
+declare module "virtual:plugins" {}
