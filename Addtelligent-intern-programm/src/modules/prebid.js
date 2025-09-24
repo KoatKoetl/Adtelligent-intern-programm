@@ -134,9 +134,7 @@ const initializePrebid = () => {
 
 		window.pbjs.requestBids({
 			timeout: PREBID_TIMEOUT,
-			bidsBackHandler: (bidResponse) => {
-				console.log("Bids received:", bidResponse);
-
+			bidsBackHandler: (_bidResponse) => {
 				adUnits.forEach((unit) => {
 					const adUnitCode = unit.code;
 					const bids = window.pbjs.getHighestCpmBids(adUnitCode);
