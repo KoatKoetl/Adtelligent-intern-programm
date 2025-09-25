@@ -11,6 +11,9 @@ const NewsDetailPage = lazy(() => import("../pages/NewsDetailPage"));
 // @ts-expect-error-next-line
 const PrebidLogs = lazy(() => import("../Components/PrebidLogs"));
 
+const modulesString = import.meta.env.VITE_SELECTED_MODULES || "";
+const isPrebidModuleEnabled = modulesString.includes("prebid");
+
 const RoutesComponent = () => {
 	return (
 		<Routes>
@@ -69,7 +72,7 @@ const RoutesComponent = () => {
 			<Route
 				path="/prebid-logs"
 				element={
-					typeof window.pbjs !== "undefined" ? (
+					isPrebidModuleEnabled ? (
 						<Suspense fallback={<Loader />}>
 							<PrebidLogs />
 						</Suspense>
