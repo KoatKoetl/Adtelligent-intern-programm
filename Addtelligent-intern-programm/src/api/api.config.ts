@@ -1,6 +1,6 @@
 export const API_CONFIG = {
 	USE_MOCK: false,
-	BASE_URL: "http://localhost:3000/api",
+	BASE_URL: import.meta.env.VITE_API_BASE_URL,
 	ENDPOINTS: {
 		LOGIN: "/auth/login",
 		REGISTER: "/auth/register",
