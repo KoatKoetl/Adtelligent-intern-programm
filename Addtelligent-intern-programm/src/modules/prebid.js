@@ -1,4 +1,5 @@
-const REFRESH_INTERVAL_MS = 30000;
+const REFRESH_INTERVAL_MS = 60000;
+const PREBID_TIMEOUT = 1000;
 
 const adUnits = [
 	{
@@ -70,7 +71,7 @@ const adUnits = [
 	},
 ];
 
-function refreshAdAuction() {
+function runAdAuction() {
 	window.pbjs = window.pbjs || {};
 	pbjs.que = pbjs.que || [];
 
@@ -80,29 +81,55 @@ function refreshAdAuction() {
 		});
 
 		pbjs.requestBids({
-			adUnitCodes: adUnits.map((unit) => unit.code),
 			bidsBackHandler: (_bidResponse) => {
 				adUnits.forEach((adUnit) => {
-					const existingIframe = document.getElementById(adUnit.code);
-					if (existingIframe) {
-						existingIframe.remove();
-						console.log(`Cleared previous ad for ${adUnit.code}`);
-					}
-
 					const bids = pbjs.getHighestCpmBids(adUnit.code);
-					console.log(`Bids for ${adUnit.code} on refresh:`, bids);
+					console.log(bids);
 
 					if (bids.length > 0) {
 						renderAdUnit(adUnit, bids[0]);
 					} else {
-						console.log(`No bids for ${adUnit.code} on this refresh`);
+						console.log(`No bids for ${adUnit.code}`);
 					}
 				});
+			},
+		});
+	});
+}
 
-				console.log(
-					`Scheduling next refresh in ${REFRESH_INTERVAL_MS / 1000} seconds...`,
-				);
-				setTimeout(refreshAdAuction, REFRESH_INTERVAL_MS);
+function refreshAdAuction() {
+	console.log("Starting ad refresh auction...");
+	const adUnitCodes = adUnits.map((unit) => unit.code);
+
+	pbjs.que.push(() => {
+		pbjs.requestBids({
+			timeout: PREBID_TIMEOUT,
+			adUnitCodes: adUnitCodes,
+			bidsBackHandler: () => {
+				console.log("Bids received for refresh. Rendering new ads.");
+
+				const winningBids = pbjs.getHighestCpmBids(adUnitCodes);
+
+				winningBids.forEach((bid) => {
+					const iframe = document.getElementById(bid.adUnitCode);
+
+					if (iframe) {
+						console.log(`Found iframe for ${bid.adUnitCode}. Updating ad.`);
+						try {
+							const doc = iframe.contentWindow.document;
+							doc.body.innerHTML = "";
+							doc.body.style.margin = "0";
+
+							pbjs.renderAd(doc, bid.adId);
+						} catch (e) {
+							console.error(`Refresh render failed for ${bid.adUnitCode}:`, e);
+						}
+					} else {
+						console.warn(
+							`Could not find iframe to refresh for ad unit: ${bid.adUnitCode}`,
+						);
+					}
+				});
 			},
 		});
 	});
@@ -154,4 +181,8 @@ function renderAdUnit(adUnit, winningBid, maxAttempts = 10, delay = 200) {
 	}, delay);
 }
 
-refreshAdAuction();
+runAdAuction();
+
+setInterval(() => {
+	refreshAdAuction();
+}, REFRESH_INTERVAL_MS);
