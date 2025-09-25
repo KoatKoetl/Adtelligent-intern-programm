@@ -1,3 +1,5 @@
+const REFRESH_INTERVAL_MS = 30000;
+
 const adUnits = [
 	{
 		code: "ad-frame-1",
@@ -68,7 +70,7 @@ const adUnits = [
 	},
 ];
 
-function runAdAuction() {
+function refreshAdAuction() {
 	window.pbjs = window.pbjs || {};
 	pbjs.que = pbjs.que || [];
 
@@ -78,17 +80,29 @@ function runAdAuction() {
 		});
 
 		pbjs.requestBids({
+			adUnitCodes: adUnits.map((unit) => unit.code),
 			bidsBackHandler: (_bidResponse) => {
 				adUnits.forEach((adUnit) => {
+					const existingIframe = document.getElementById(adUnit.code);
+					if (existingIframe) {
+						existingIframe.remove();
+						console.log(`Cleared previous ad for ${adUnit.code}`);
+					}
+
 					const bids = pbjs.getHighestCpmBids(adUnit.code);
-					console.log(bids);
+					console.log(`Bids for ${adUnit.code} on refresh:`, bids);
 
 					if (bids.length > 0) {
 						renderAdUnit(adUnit, bids[0]);
 					} else {
-						console.log(`No bids for ${adUnit.code}`);
+						console.log(`No bids for ${adUnit.code} on this refresh`);
 					}
 				});
+
+				console.log(
+					`Scheduling next refresh in ${REFRESH_INTERVAL_MS / 1000} seconds...`,
+				);
+				setTimeout(refreshAdAuction, REFRESH_INTERVAL_MS);
 			},
 		});
 	});
@@ -113,6 +127,7 @@ function renderAdUnit(adUnit, winningBid, maxAttempts = 10, delay = 200) {
 			const iframe = document.createElement("iframe");
 			iframe.id = adUnit.code;
 			iframe.frameBorder = 0;
+			iframe.style.margin = "0 auto";
 			iframe.scrolling = "no";
 			iframe.style.border = "none";
 
@@ -139,4 +154,4 @@ function renderAdUnit(adUnit, winningBid, maxAttempts = 10, delay = 200) {
 	}, delay);
 }
 
-runAdAuction();
+refreshAdAuction();
