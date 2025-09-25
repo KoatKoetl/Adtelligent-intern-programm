@@ -19,7 +19,7 @@ const initializeGoogle = () => {
 	const googleAdUnits = [
 		{
 			code: "google-ad-frame-2",
-			targetSelector: "#before-footer",
+			targetSelector: "header + div",
 			slotName: "/6355419/Travel/Europe/France",
 			mediaTypes: { banner: { sizes: [[728, 90]] } },
 			bids: [{ bidder: "bidmatic", params: { source: 886409 } }],
